@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOCHA Investments | Renovation Experts</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for professional look -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom font and colors */
+        :root {
+            --color-primary: #10B981; /* Green */
+            --color-accent-red: #EF4444; /* Red */
+            --color-accent-blue: #3B82F6; /* Blue for 'Investments' */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light Gray/Snow White feel */
+        }
+        /* Custom classes for the BOCHA logo color scheme */
+        .logo-bocha { color: var(--color-accent-red); font-weight: 900; }
+        .logo-investments { color: var(--color-accent-blue); font-weight: 700; }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-primary { color: var(--color-primary); }
+        .text-red-600 { color: var(--color-accent-red); }
+        .text-bocha-blue { color: var(--color-accent-blue); }
+        .bg-bocha-blue { background-color: var(--color-accent-blue); }
+        
+        /* Smooth transitions for links and buttons */
+        .transition-all { transition: all 0.3s ease; }
+
+        /* Gallery Card Styles */
+        .gallery-card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* Space between cards */
+        }
+        .gallery-item {
+            scroll-snap-align: start;
+            min-height: 250px;
+        }
+        
+        /* Ensuring the active page is always visible and others are hidden */
+        .page-content {
+            min-height: calc(100vh - 8rem); /* Adjust based on header/footer size */
+        }
+        /* Modal specific styles for smooth transition */
+        #project-modal {
+            transition: opacity 0.3s ease;
+        }
+        #project-modal > div {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Tailwind Config for Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bocha-green': 'var(--color-primary)',
+                        'bocha-red': 'var(--color-accent-red)',
+                        'bocha-blue': 'var(--color-accent-blue)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Header & Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <button onclick="navigate('home')" class="flex flex-col items-center p-1 rounded-full bg-white shadow-inner">
+                        <span class="text-xl leading-none logo-bocha">BOCHA</span>
+                        <span class="text-xs leading-none logo-investments">Investments</span>
+                    </button>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <button class="nav-link text-gray-600 hover:text-bocha-green font-medium transition-all" onclick="navigate('home')" data-page="home">Home</button>
+                    <button class="nav-link text-gray-600 hover:text-bocha-green font-medium transition-all" onclick="navigate('quote')" data-page="quote">Get a Quote</button>
+                    <button class="nav-link text-gray-600 hover:text-bocha-green font-medium transition-all" onclick="navigate('about')" data-page="about">About us</button>
+                    <button class="nav-link text-gray-600 hover:text-bocha-green font-medium transition-all" onclick="navigate('guides')" data-page="guides">Guides</button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-bocha-green focus:outline-none" aria-label="Toggle menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+            <button class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-50" onclick="navigate('home')">Home</button>
+            <button class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-50" onclick="navigate('quote')">Get a Quote</button>
+            <button class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-50" onclick="navigate('about')">About us</button>
+            <button class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-50" onclick="navigate('guides')">Guides</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ==================================== -->
+        <!-- 1. HOME PAGE -->
+        <!-- ==================================== -->
+        <section id="home-page" class="page-content">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Hero Card (Left/Top) -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-xl border-t-4 border-bocha-green">
+                    <div class="flex flex-col items-center text-center">
+                        <img class="w-24 h-24 rounded-full object-cover shadow-lg mb-4 border-4 border-bocha-green" 
+                             src="renn/were2.jpg" 
+                             alt="Profile Picture of Shepherd, referencing 1p.jpeg">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-1">SHEPHERD</h2>
+                        <p class="text-sm text-gray-500 mb-6">Your Exper to Quality Rennovations.</p>
+                        
+                        <!-- Call Shepherd Now Button -->
+                        <div class="relative w-full">
+                            <button id="call-shepherd-btn" 
+                                    class="w-full bg-bocha-red text-white py-3 px-6 rounded-xl font-bold uppercase hover:bg-red-700 shadow-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                                <i data-lucide="phone" class="w-5 h-5 mr-2"></i>
+                                CALL SHEPHERD NOW!
+                            </button>
+                            
+                            <!-- Dropdown Options -->
+                            <div id="call-options" class="absolute w-full mt-2 space-y-2 hidden transform origin-top transition-transform duration-300 ease-out scale-y-0">
+                                <a href="tel:+27123456789" class="block w-full bg-bocha-green text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 flex items-center justify-center shadow-md">
+                                    <i data-lucide="phone" class="w-5 h-5 mr-2"></i> Direct Call
+                                </a>
+                                <a href="https://wa.me/27713204047" target="_blank" class="block w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 flex items-center justify-center shadow-md">
+                                    <i data-lucide="message-square-text" class="w-5 h-5 mr-2"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Section (Right/Bottom) -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-2">Our Gallery & Services</h3>
+                    <p class="text-lg text-gray-600 mb-6">We specialize in Tree Filling, Paving, Landscaping, Painting, Irrigation Setup, and Garden Renovations.</p>
+                    
+                    <div class="gallery-card-container space-y-6">
+                        <!-- Gallery Item 1: Tree Filling -->
+                        <div class="gallery-item bg-white p-4 rounded-xl shadow-lg border-l-8 border-yellow-500 flex flex-col md:flex-row items-center">
+                            <img src="renn/af.jpg" alt="Tree Filling Project Example (Reference 1p.jpeg)" class="w-full md:w-48 h-48 object-cover rounded-lg mr-4 mb-4 md:mb-0 shadow-md">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Tree Filling & Removal</h4>
+                                <p class="text-gray-600">Safe and professional removal of unwanted or hazardous trees, followed by meticulous site restoration.</p>
+                                <!-- Button to open modal -->
+                                <button onclick="openModal('Tree Filling & Removal', 'image1.jpg')" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700 transition-colors">
+                                    View Project <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Gallery Item 2: Waterproofing -->
+                        <div class="gallery-item bg-white p-4 rounded-xl shadow-lg border-l-8 border-blue-500 flex flex-col md:flex-row items-center">
+                            <img src="renn/ae.jpg" alt="Waterproofing Project Example (Reference 1p.jpeg)" class="w-full md:w-48 h-48 object-cover rounded-lg mr-4 mb-4 md:mb-0 shadow-md">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Gardening</h4>
+                                <p class="text-gray-600">All Gardening services DONE!</p>
+                                <!-- Button to open modal -->
+                                <button onclick="openModal('Advanced Waterproofing', 'image2.jpg')" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700 transition-colors">
+                                    View Project <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-item bg-white p-4 rounded-xl shadow-lg border-l-8 border-blue-500 flex flex-col md:flex-row items-center">
+                            <img src="renn/wt.jpg" alt="Waterproofing Project Example (Reference 1p.jpeg)" class="w-full md:w-48 h-48 object-cover rounded-lg mr-4 mb-4 md:mb-0 shadow-md">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Waterproofing</h4>
+                                <p class="text-gray-600">Long-lasting solutions for roofs, basements, and foundations.</p>
+                                <!-- Button to open modal -->
+                                <button onclick="openModal('Advanced Waterproofing', 'image2.jpg')" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700 transition-colors">
+                                    View Project <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item bg-white p-4 rounded-xl shadow-lg border-l-8 border-blue-500 flex flex-col md:flex-row items-center">
+                            <img src="renn/ab.jpg" alt="Waterproofing Project Example (Reference 1p.jpeg)" class="w-full md:w-48 h-48 object-cover rounded-lg mr-4 mb-4 md:mb-0 shadow-md">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Painting</h4>
+                                <p class="text-gray-600">From home to industrial Painting</p>
+                                <!-- Button to open modal -->
+                                <button onclick="openModal('Advanced Waterproofing', 'image2.jpg')" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700 transition-colors">
+                                    View Project <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Item 3: Landscaping/Paving -->
+                        <div class="gallery-item bg-white p-4 rounded-xl shadow-lg border-l-8 border-bocha-green flex flex-col md:flex-row items-center">
+                            <img src="https://placehold.co/150x150/065F46/ffffff?text=Landscaping" alt="Landscaping/Paving Project Example (Reference 1p.jpeg)" class="w-full md:w-48 h-48 object-cover rounded-lg mr-4 mb-4 md:mb-0 shadow-md">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Paving</h4>
+                                <p class="text-gray-600">From paved driveways to vibrant, sustainable garden designs.</p>
+                                <!-- Button to open modal -->
+                                <button onclick="openModal('Paving & Landscaping', 'image3.jpg')" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700 transition-colors">
+                                    View Project <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="mt-8 w-full py-4 text-center text-lg font-bold bg-bocha-green text-white rounded-xl hover:bg-emerald-700 transition-all shadow-md">
+                        Visit Full Gallery
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================== -->
+        <!-- 2. GET A QUOTE PAGE (Hidden by default) -->
+        <!-- ==================================== -->
+        <section id="quote-page" class="page-content hidden">
+            <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl border-t-4 border-bocha-green">
+                <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Get Your Free Quote</h1>
+                <p class="text-xl text-gray-600 mb-8">How can we help you create your iconic renovation?</p>
+                
+                <form id="quote-form" class="space-y-6">
+                    <!-- Name & Service -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Full Name</label>
+                            <input type="text" id="name" name="name" required
+                                   class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-bocha-green focus:border-bocha-green transition-all"
+                                   placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="service" class="block text-sm font-medium text-gray-700 mb-1">Service Required</label>
+                            <select id="service" name="service" required
+                                    class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-bocha-green focus:border-bocha-green transition-all appearance-none bg-white">
+                                <option value="" disabled selected>Select a Service...</option>
+                                <option value="Tree_Filling">Tree Filling</option>
+                                <option value="Waterproofing">Waterproofing</option>
+                                <option value="Paving">Paving</option>
+                                <option value="Landscaping">Landscaping</option>
+                                <option value="Painting">Painting</option>
+                                <option value="Irrigation">Irrigation Setup</option>
+                                <option value="Garden_Rennovations">Garden Rennovations</option>
+                                <option value="Other">Other Renovation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details (Quick Contact Box) -->
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gray-700 mb-1">Quick Contact Details (Phone/Email)</label>
+                        <input type="text" id="contact" name="contact" required
+                               class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-bocha-green focus:border-bocha-green transition-all"
+                               placeholder="e.g., +27 12 345 6789 or email@example.com">
+                        <p class="text-xs text-gray-500 mt-1">We will use this to contact you quickly regarding your quote.</p>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Describe what needs to be specifically done</label>
+                        <textarea id="description" name="description" rows="4" required
+                                  class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-bocha-green focus:border-bocha-green transition-all"
+                                  placeholder="E.g., I need a 50m² paved patio installed using travertine stone, and two large trees removed from the front garden."></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex flex-col items-center space-y-4 pt-4 border-t border-gray-100">
+                        <button type="submit" 
+                                class="w-full md:w-2/3 bg-bocha-green text-white py-4 px-8 rounded-xl font-bold uppercase hover:bg-emerald-700 shadow-lg transition-all transform hover:scale-[1.02]">
+                            Submit Quote Request
+                        </button>
+                        
+                        <div class="text-center w-full">
+                            <p class="text-sm text-gray-500 mb-2">OR for immediate service:</p>
+                            <a href="tel:+27123456789" class="inline-flex items-center bg-bocha-red text-white py-3 px-6 rounded-xl font-bold uppercase hover:bg-red-700 shadow-md transition-all">
+                                <i data-lucide="phone" class="w-5 h-5 mr-2"></i> CALL SHEPHERD NOW!
+                            </a>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            
+            <div id="form-message" class="hidden max-w-3xl mx-auto mt-4 p-4 rounded-xl bg-green-100 border border-bocha-green text-bocha-green">
+                Thank you! Your quote request has been submitted. Shepherd will contact you shortly.
+            </div>
+        </section>
+
+        <!-- ==================================== -->
+        <!-- 3. ABOUT US PAGE (Hidden by default) -->
+        <!-- ==================================== -->
+        <section id="about-page" class="page-content hidden">
+            <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-10">BOCHA: Built on Trust and Expertise</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat Card 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-8 border-bocha-green text-center transition-transform hover:scale-105">
+                    <p class="text-6xl font-black text-bocha-green mb-2">18+</p>
+                    <h2 class="text-xl font-bold text-gray-800">YEARS OF EXPERIENCE</h2>
+                    <p class="text-sm text-gray-500 mt-1">A proven track record of excellence in renovation.</p>
+                </div>
+                
+                <!-- Stat Card 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-8 border-bocha-red text-center transition-transform hover:scale-105">
+                    <p class="text-6xl font-black text-bocha-red mb-2">100+</p>
+                    <h2 class="text-xl font-bold text-gray-800">ICONIC RENOVATIONS</h2>
+                    <p class="text-sm text-gray-500 mt-1">Successfully completed projects across the region.</p>
+                </div>
+                
+                <!-- Stat Card 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-8 border-bocha-blue text-center transition-transform hover:scale-105">
+                    <i data-lucide="users" class="w-12 h-12 mx-auto text-bocha-blue mb-2"></i>
+                    <h2 class="text-xl font-bold text-gray-800 mt-2">PROFESSIONAL RENOVATORS</h2>
+                    <p class="text-sm text-gray-500 mt-1">Our team is highly trained, courteous, and dedicated.</p>
+                </div>
+                
+                <!-- Stat Card 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-8 border-bocha-green text-center transition-transform hover:scale-105">
+                    <i data-lucide="shield-check" class="w-12 h-12 mx-auto text-bocha-green mb-2"></i>
+                    <h2 class="text-xl font-bold text-gray-800 mt-2">GUARANTEED QUALITY</h2>
+                    <p class="text-sm text-gray-500 mt-1">We stand by our work with a commitment to lasting results.</p>
+                </div>
+            </div>
+            
+            <!-- New: Shepherd Profile/Contact Card for About Page (similar to Home) -->
+            <div class="mt-12 w-full lg:col-span-4">
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-bocha-red max-w-lg mx-auto">
+                    <div class="flex flex-col items-center text-center">
+                        <img class="w-24 h-24 rounded-full object-cover shadow-lg mb-4 border-4 border-bocha-red" 
+                             src="renn/were2.jpg" 
+                             alt="Profile Picture of Shepherd, Head Renovator">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-1">Shepherd</h2>
+                        <p class="text-sm text-gray-500 mb-6">Ready to discuss your next renovation project.</p>
+                        
+                        <!-- Connect Button (with new ID) -->
+                        <div class="relative w-full">
+                            <button id="call-shepherd-about-btn" 
+                                    class="w-full bg-bocha-green text-white py-3 px-6 rounded-xl font-bold uppercase hover:bg-emerald-700 shadow-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                                <i data-lucide="phone" class="w-5 h-5 mr-2"></i>
+                                CONNECT WITH SHEPHERD
+                            </button>
+                            
+                            <!-- Dropdown Options (with new ID) -->
+                            <div id="call-options-about" class="absolute w-full mt-2 space-y-2 hidden transform origin-top transition-transform duration-300 ease-out scale-y-0">
+                                <a href="tel:+27713204047" class="block w-full bg-bocha-red text-white py-3 rounded-xl font-semibold hover:bg-red-700 flex items-center justify-center shadow-md">
+                                    <i data-lucide="phone" class="w-5 h-5 mr-2"></i> Direct Call
+                                </a>
+                                <a href="https://wa.me/27713204047" target="_blank" class="block w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 flex items-center justify-center shadow-md">
+                                    <i data-lucide="message-square-text" class="w-5 h-5 mr-2"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================== -->
+        <!-- 4. GUIDES PAGE (Hidden by default) -->
+        <!-- ==================================== -->
+        <section id="guides-page" class="page-content hidden">
+            <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-4">Renovation Guides & Tips</h1>
+            <p class="text-xl text-center text-gray-600 mb-10">Knowledge is power. Elevate your home by reading our expert-written guides.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Guide Article 1 -->
+                <article class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-bocha-green transition-shadow hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center">
+                        <i data-lucide="droplet" class="w-6 h-6 mr-2 text-blue-500"></i>
+                        The Ultimate Guide to Waterproofing Your Roof
+                    </h2>
+                    <p class="text-gray-600 mb-4">Learn about the best materials, common mistakes, and how professional waterproofing can save you thousands in future repairs. Essential reading for all homeowners.</p>
+                    <a href="#" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700">Read Article <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
+                </article>
+                
+                <!-- Guide Article 2 -->
+                <article class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-bocha-red transition-shadow hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center">
+                        <i data-lucide="tree-pine" class="w-6 h-6 mr-2 text-yellow-700"></i>
+                        When to Call a Professional for Tree Filling Services
+                    </h2>
+                    <p class="text-gray-600 mb-4">Understanding the risks of DIY tree removal. We cover signs of disease, emergency services, and proper stump removal techniques for a clean garden.</p>
+                    <a href="#" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700">Read Article <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
+                </article>
+
+                <!-- Guide Article 3 -->
+                <article class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-bocha-blue transition-shadow hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center">
+                        <i data-lucide="palette" class="w-6 h-6 mr-2 text-purple-500"></i>
+                        Choosing the Right Paint for Exterior Walls
+                    </h2>
+                    <p class="text-gray-600 mb-4">A breakdown of latex vs. oil-based paints, weather resistance, and how the right color can instantly boost your home's curb appeal and market value.</p>
+                    <a href="#" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700">Read Article <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
+                </article>
+
+                <!-- Guide Article 4 -->
+                <article class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-bocha-green transition-shadow hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center">
+                        <i data-lucide="trench-coat" class="w-6 h-6 mr-2 text-orange-500"></i>
+                        The Longevity of Paving: Materials and Maintenance
+                    </h2>
+                    <p class="text-gray-600 mb-4">From cobblestone to concrete, we detail the lifespan of popular paving materials and simple maintenance tips to keep your pathways looking new for decades.</p>
+                    <a href="#" class="text-bocha-green font-semibold mt-2 inline-flex items-center hover:text-emerald-700">Read Article <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
+                </article>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-bocha-green mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-white">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                &copy; 2025 BOCHA Investments by EDWIN. All Rights Reserved.
+            </div>
+            
+            <!-- Social Logos Links -->
+            <div class="flex space-x-4">
+                <a href="#" aria-label="Facebook" class="text-white hover:text-bocha-red transition-colors"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                <a href="#" aria-label="Twitter" class="text-white hover:text-bocha-red transition-colors"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                <a href="#" aria-label="Instagram" class="text-white hover:text-bocha-red transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                <a href="#" aria-label="LinkedIn" class="text-white hover:text-bocha-red transition-colors"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================================== -->
+    <!-- Project Modal Overlay (New Feature) -->
+    <!-- ==================================== -->
+    <div id="project-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-[99] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-full overflow-y-auto transform scale-95 transition-transform duration-300">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800">Project Details</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Modal Content (Image) -->
+            <div class="p-4">
+                <img id="modal-image" src="" alt="Project Image" class="w-full h-auto object-cover rounded-xl shadow-md mb-4 aspect-video">
+                <div id="modal-description" class="text-gray-700 p-2">
+                    <h4 class="text-xl font-semibold text-bocha-green mb-2">Project Scope Summary</h4>
+                    <p>This provides a detailed breakdown of the work completed for the <span id="project-service-name" class="font-bold">Service</span> project, demonstrating our commitment to iconic renovation and quality. The image above is a mock-up referencing **<span id="image-filename" class="font-mono bg-gray-100 px-1 rounded">image.jpg</span>**.</p>
+                    <ul class="list-disc list-inside mt-4 space-y-1 text-base">
+                        <li>Comprehensive assessment of site and client requirements.</li>
+                        <li>High-quality execution of the core renovation service.</li>
+                        <li>Thorough final inspection, detailing, and site cleanup.</li>
+                        <li>Client sign-off, supported by our quality guarantee.</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="p-6 border-t border-gray-100 flex justify-end">
+                <button onclick="navigate('quote'); closeModal();" class="bg-bocha-red text-white py-2 px-6 rounded-xl font-bold hover:bg-red-700 transition-colors shadow-lg">
+                    Get a Quote for This
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interaction and LLM Integration -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Page Navigation Logic
+        let currentPage = 'home';
+        const pages = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+        function navigate(targetPage) {
+            currentPage = targetPage;
+            
+            // Hide all pages
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Show target page
+            const targetElement = document.getElementById(targetPage + '-page');
+            if (targetElement) {
+                targetElement.classList.remove('hidden');
+            }
+
+            // Update active navigation link styling
+            navLinks.forEach(link => {
+                if (link.dataset.page === targetPage) {
+                    link.classList.remove('text-gray-600', 'border-b-0');
+                    link.classList.add('text-bocha-green', 'border-b-2', 'border-bocha-green');
+                } else {
+                    link.classList.add('text-gray-600');
+                    link.classList.remove('text-bocha-green', 'border-b-2', 'border-bocha-green');
+                }
+            });
+
+            // Close mobile menu if open
+            mobileMenu.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Set initial state
+        navigate(currentPage); 
+
+        // 2. "CALL SHEPHERD NOW!" Button Dropdown Logic (Home Page)
+        const callButton = document.getElementById('call-shepherd-btn');
+        const callOptions = document.getElementById('call-options');
+        
+        if (callButton) {
+            callButton.addEventListener('click', () => {
+                const isHidden = callOptions.classList.contains('hidden');
+                if (isHidden) {
+                    callOptions.classList.remove('hidden');
+                    setTimeout(() => {
+                        callOptions.classList.remove('scale-y-0');
+                        callOptions.classList.add('scale-y-100');
+                    }, 10); // Small delay to trigger transition
+                } else {
+                    callOptions.classList.add('scale-y-0');
+                    setTimeout(() => {
+                        callOptions.classList.add('hidden');
+                    }, 300); // Wait for transition to finish before hiding
+                }
+            });
+        }
+
+        // 3. Form Submission Handling (Quote Page)
+        const quoteForm = document.getElementById('quote-form');
+        const formMessage = document.getElementById('form-message');
+        
+        if (quoteForm) {
+            quoteForm.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                
+                console.log('Quote Request Submitted:', {
+                    name: document.getElementById('name').value,
+                    service: document.getElementById('service').value,
+                    contact: document.getElementById('contact').value,
+                    description: document.getElementById('description').value
+                });
+
+                // Display success message and reset form
+                quoteForm.reset();
+                formMessage.classList.remove('hidden');
+                
+                // Auto-hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+            });
+        }
+
+        // 4. Mobile Menu Toggle
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // 5. PROJECT MODAL LOGIC 
+        function openModal(serviceName, imageUrl) {
+            const modal = document.getElementById('project-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            const projectServiceName = document.getElementById('project-service-name');
+            const imageFilename = document.getElementById('image-filename');
+            
+            // Set content
+            modalTitle.textContent = `${serviceName} Project Example`;
+            projectServiceName.textContent = serviceName;
+            imageFilename.textContent = imageUrl;
+            
+            // Use placehold.co for a dynamic visual placeholder based on the service name
+            const placeholderUrl = `https://placehold.co/800x450/4B5563/ffffff?text=${encodeURIComponent(serviceName.replace(/ /g, '+'))}`; 
+            modalImage.src = placeholderUrl;
+            modalImage.onerror = () => modalImage.src = `https://placehold.co/800x450/4B5563/ffffff?text=Image+Reference:+${imageUrl}`;
+
+            // Show modal with transition
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                // Target the inner content div (the second child)
+                modal.querySelector('div:nth-child(2)').classList.remove('scale-95');
+                modal.querySelector('div:nth-child(2)').classList.add('scale-100');
+            }, 10);
+            
+            // Disable body scrolling
+            document.body.style.overflow = 'hidden';
+            
+            // Re-render lucide icons inside the modal
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            
+            // Hide modal with transition
+            modal.classList.add('opacity-0');
+            modal.querySelector('div:nth-child(2)').classList.remove('scale-100');
+            modal.querySelector('div:nth-child(2)').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Match CSS transition duration
+            
+            // Enable body scrolling
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('project-modal').classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // Close modal when clicking outside the content box
+        document.getElementById('project-modal').addEventListener('click', function(e) {
+            if (e.target.id === 'project-modal') {
+                closeModal();
+            }
+        });
+        
+        // 6. "CALL SHEPHERD NOW!" Button Dropdown Logic (About Page)
+        const callButtonAbout = document.getElementById('call-shepherd-about-btn');
+        const callOptionsAbout = document.getElementById('call-options-about');
+        
+        if (callButtonAbout) {
+            callButtonAbout.addEventListener('click', () => {
+                const isHidden = callOptionsAbout.classList.contains('hidden');
+                if (isHidden) {
+                    callOptionsAbout.classList.remove('hidden');
+                    setTimeout(() => {
+                        callOptionsAbout.classList.remove('scale-y-0');
+                        callOptionsAbout.classList.add('scale-y-100');
+                    }, 10); // Small delay to trigger transition
+                } else {
+                    callOptionsAbout.classList.add('scale-y-0');
+                    setTimeout(() => {
+                        callOptionsAbout.classList.add('hidden');
+                    }, 300); // Wait for transition to finish before hiding
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
